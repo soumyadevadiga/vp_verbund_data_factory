@@ -1,0 +1,228 @@
+{
+	"name": "SQLtoSnowflake",
+	"properties": {
+		"description": "Pipeline to load data from SQLtoSnowflake source table",
+		"activities": [
+			{
+				"name": "ExtractLastUpdatedDateDestination",
+				"description": "Last loaded data",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SnowflakeSource",
+						"query": "select max(UPDATEDDATEUTC) as last_loaded_dt from source_db.CompanyLeads;",
+						"exportSettings": {
+							"type": "SnowflakeExportCopyCommand"
+						}
+					},
+					"dataset": {
+						"referenceName": "SnowflakeCompanyLeads",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "ExtractDeltaAndCopySQLToSnowflake",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "ExtractLastUpdatedDateDestination",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": {
+							"value": "SELECT * FROM CompanyLeads\r\nWHERE\r\nUpdatedDateUtc > @{activity('ExtractLastUpdatedDateDestination').output.firstRow.LAST_LOADED_DT}",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SnowflakeSink",
+						"importSettings": {
+							"type": "SnowflakeImportCopyCommand"
+						}
+					},
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "SnowflakeStaging",
+							"type": "LinkedServiceReference"
+						},
+						"path": ""
+					},
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Id"
+								},
+								"sink": {
+									"name": "ID"
+								}
+							},
+							{
+								"source": {
+									"name": "State"
+								},
+								"sink": {
+									"name": "STATE"
+								}
+							},
+							{
+								"source": {
+									"name": "CreatedDateUtc"
+								},
+								"sink": {
+									"name": "CREATEDDATEUTC"
+								}
+							},
+							{
+								"source": {
+									"name": "CancellationRequestDateUtc"
+								},
+								"sink": {
+									"name": "CANCELLATIONREQUESTDATEUTC"
+								}
+							},
+							{
+								"source": {
+									"name": "CancellationDateUtc"
+								},
+								"sink": {
+									"name": "CANCELLATIONDATEUTC"
+								}
+							},
+							{
+								"source": {
+									"name": "CancellationRejectionDateUtc"
+								},
+								"sink": {
+									"name": "CANCELLATIONREJECTIONDATEUTC"
+								}
+							},
+							{
+								"source": {
+									"name": "UndoCancellationDateUtc"
+								},
+								"sink": {
+									"name": "UNDOCANCELLATIONDATEUTC"
+								}
+							},
+							{
+								"source": {
+									"name": "CanceledEmployee"
+								},
+								"sink": {
+									"name": "CANCELEDEMPLOYEE"
+								}
+							},
+							{
+								"source": {
+									"name": "SoldEmployee"
+								},
+								"sink": {
+									"name": "SOLDEMPLOYEE"
+								}
+							},
+							{
+								"source": {
+									"name": "UpdatedDateUtc"
+								},
+								"sink": {
+									"name": "UPDATEDDATEUTC"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SQLServerCompanyLeads",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SnowflakeCompanyLeads",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "SendEmail",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "ExtractDeltaAndCopySQLToSnowflake",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://prod-06.germanywestcentral.logic.azure.com:443/workflows/6532834c480a40a6b224b230e9306a54/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=7VKxO1CbAsYmY6Pju3yw8nGSCdLsDqMZIk3dnrSoe3Q",
+					"method": "POST",
+					"body": {
+						"value": "{\n\"PipelineName\":\"@{pipeline().Pipeline}\",\n\"ErrorMessage\":\"@{activity('ExtractDeltaAndCopySQLToSnowflake').Error.Message}\"\n}",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Pipeline Fail",
+				"type": "Fail",
+				"dependsOn": [
+					{
+						"activity": "SendEmail",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"message": {
+						"value": "@activity('ExtractDeltaAndCopySQLToSnowflake').error.message",
+						"type": "Expression"
+					},
+					"errorCode": "LoadError"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2023-10-05T16:19:04Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,63 @@
+{
+	"name": "SQLServerCompanyLeads",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "VPcompanySQLServer",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "Id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "State",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "CreatedDateUtc",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "CancellationRequestDateUtc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CancellationDateUtc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CancellationRejectionDateUtc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UndoCancellationDateUtc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CanceledEmployee",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SoldEmployee",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UpdatedDateUtc",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "CompanyLeads"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

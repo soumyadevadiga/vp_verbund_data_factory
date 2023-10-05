@@ -1,0 +1,16 @@
+{
+	"name": "VPcompanySQLServer",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=LAPTOP-EDDB4SPR\\MSSQLSERVER01;initial catalog=sourcedb;user id=vpuser",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIyM2I0ZWIxYy1mYjUzLTRlMWYtOTcxOS05YTFlYjc1M2NkMDQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "SQLServerIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

@@ -1,0 +1,9 @@
+{
+	"name": "VPCompanyDF",
+	"location": "germanywestcentral",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "563b4c8a-5d19-415b-8958-e4046854f337",
+		"tenantId": "9233e630-fa0e-4cc5-9943-680d4ff86cb4"
+	}
+}
