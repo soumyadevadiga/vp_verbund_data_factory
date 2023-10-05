@@ -1,0 +1,33 @@
+To set-up the Snowflake below are the scripts
+
+-------------------------------------------------------------------------------
+create or replace warehouse VPCOMPANYWH with WAREHOUSE_TYPE = 'STANDARD'
+WAREHOUSE_SIZE = 'XSMALL' AUTO_SUSPEND = 600 AUTO_RESUME = TRUE
+
+create or replace database VPCOMPANYDB;
+
+create or replace schema source_db;
+
+create or replace TABLE VPCOMPANYDB.source_db.CompanyLeads (
+Id NVARCHAR NOT NULL,
+State TINYINT NOT NULL,
+CreatedDateUtc DATETIME NOT NULL,
+CancellationRequestDateUtc DATETIME,
+CancellationDateUtc DATETIME,
+CancellationRejectionDateUtc DATETIME,
+UndoCancellationDateUtc DATETIME,
+CanceledEmployee VARCHAR,
+SoldEmployee VARCHAR NOT NULL,
+UpdatedDateUtc DATETIME NOT NULL
+);
+
+create or replace table VPCOMPANYDB.sourcedb.LeadEvents (
+ID String not null,
+EventType String,
+EventEmployee String,
+EventDate DATETIME,
+LeadId String,
+UpdatedDateUtc DATETIME
+);
+
+----------------------------------------------------------------------------------------

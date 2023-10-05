@@ -1,0 +1,56 @@
+name: etl_env
+channels:
+  - https://repo.anaconda.com/pkgs/snowflake
+  - defaults
+dependencies:
+  - blas=1.0=mkl
+  - bottleneck=1.3.5=py38h080aedc_0
+  - ca-certificates=2023.08.22=haa95532_0
+  - intel-openmp=2023.1.0=h59b6b97_46319
+  - libffi=3.4.4=hd77b12b_0
+  - mkl=2023.1.0=h6b88ed4_46357
+  - mkl-service=2.4.0=py38h2bbff1b_1
+  - mkl_fft=1.3.8=py38h2bbff1b_0
+  - mkl_random=1.2.4=py38h59b6b97_0
+  - numexpr=2.8.4=py38h7b80656_1
+  - numpy=1.24.3=py38h79a8e48_1
+  - numpy-base=1.24.3=py38h8a87ada_1
+  - openssl=3.0.11=h2bbff1b_2
+  - pandas=2.0.3=py38h4ed8f06_0
+  - pip=23.2.1=py38haa95532_0
+  - python=3.8.18=h1aa4202_0
+  - python-dateutil=2.8.3+snowflake1=py38haa95532_1
+  - python-tzdata=2023.3=pyhd3eb1b0_0
+  - pytz=2022.7=py38haa95532_0
+  - setuptools=68.0.0=py38haa95532_0
+  - six=1.16.0=pyhd3eb1b0_1
+  - sqlite=3.41.2=h2bbff1b_0
+  - tbb=2021.8.0=h59b6b97_0
+  - vc=14.2=h21ff451_1
+  - vs2015_runtime=14.27.29016=h5e58377_2
+  - wheel=0.38.4=py38haa95532_0
+  - pip:
+      - asn1crypto==1.5.1
+      - certifi==2023.7.22
+      - cffi==1.16.0
+      - charset-normalizer==3.3.0
+      - cloudpickle==2.0.0
+      - cryptography==41.0.4
+      - filelock==3.12.4
+      - idna==3.4
+      - oscrypto==1.3.0
+      - packaging==23.2
+      - platformdirs==3.11.0
+      - pycparser==2.21
+      - pycryptodomex==3.19.0
+      - pyjwt==2.8.0
+      - pyopenssl==23.2.0
+      - pyyaml==6.0.1
+      - requests==2.31.0
+      - snowflake-connector-python==3.2.1
+      - snowflake-snowpark-python==1.8.0
+      - sortedcontainers==2.4.0
+      - tomlkit==0.12.1
+      - typing-extensions==4.8.0
+      - urllib3==1.26.17
+prefix: C:\Users\soumya\anaconda3\envs\etl_env

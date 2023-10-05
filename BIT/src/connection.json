@@ -1,0 +1,9 @@
+{
+  "account" : "ab12345.eu-central-1",
+  "user" : "username",
+  "password" : "password",
+  "role" : "ACCOUNTADMIN",
+  "warehouse" : "VPCOMPANYWH",
+  "database" : "VPCOMPANYDB",
+  "schema" : "SCHEMANAME"
+}

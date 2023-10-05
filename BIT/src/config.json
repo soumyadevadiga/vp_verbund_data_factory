@@ -1,0 +1,35 @@
+{
+    "table_name": {
+        "company_leads": "CompanyLeads",
+        "lead_events": "LeadEvents"
+    },
+
+    "column_name": {
+        "id": "Id",
+        "event_type": "EventType",
+        "event_emp": "EventEmployee",
+        "event_dt": "EventDate",
+        "lead_id": "LeadId",
+        "updated_dt": "UpdatedDateUtc",
+        "state" : "State",
+        "created_dt" : "CreatedDateUtc",
+        "cancel_request_dt" : "CancellationRequestDateUtc",
+        "cancelled_dt" : "CancellationDateUtc",
+        "cancel_reject_dt" : "CancellationRejectionDateUtc",
+        "sold_emp" : "SoldEmployee",
+        "cancelled_emp" : "CanceledEmployee"
+    },
+
+    "column_value": {
+        "id_new_value" : "LeadID",
+        "event_type_state_0": "LeadSold",
+        "event_type_state_1": "LeadRequestedCancellation",
+        "event_type_state_2": "LeadCancelled",
+        "event_type_state_3": "LeadCancellationRejected",
+        "event_employee_state_1_or_3": "Unknown"
+    },
+
+    "options": {
+        "write_method": "overwrite"
+    }
+}

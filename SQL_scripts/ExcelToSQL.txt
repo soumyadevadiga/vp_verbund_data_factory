@@ -1,0 +1,32 @@
+1. Login SQL server management studio with the Database Owner User that has suitable access
+
+CREATE DATABASE sourcedb;
+
+CREATE TABLE CompanyLeads (
+Id NVARCHAR NOT NULL,
+State TINYINT NOT NULL,
+CreatedDateUtc DATETIME NOT NULL,
+CancellationRequestDateUtc DATETIME,
+CancellationDateUtc DATETIME,
+CancellationRejectionDateUtc DATETIME,
+UndoCancellationDateUtc DATETIME,
+CanceledEmployee VARCHAR,
+SoldEmployee VARCHAR NOT NULL,
+UpdatedDateUtc DATETIME NOT NULL
+);
+
+2. To load the data from Excel to SQL Server table 
+
+- use Microsoft OLE DB Driver for SQL Server
+
+USE ImportFromExcel;
+GO
+INSERT * INTO sourcedb.CompanyLeads SELECT *
+FROM OPENDATASOURCE('Microsoft.ACE.OLEDB.12.0',
+    'Data Source=Location\Data.xlsx;Extended Properties=Excel 12.0')...[Sheet1$];
+GO
+
+- another way is to use Import Feature from SQL Server Management Studio
+
+RightClick on DB -> Tasks -> Import Data
+------------------------------------------------------------------------------------------
